@@ -1,5 +1,12 @@
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js')
-    .then(reg => console.log('service worker registered'))
-    .catch(err => console.log('service worker not registered', err));
-}
+window.addEventListener('load', async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js')
+      console.log('Service worker register success', reg)
+    } catch (e) {
+      console.log('Service worker register fail')
+    }
+  }
+
+  await loadPosts()
+})
