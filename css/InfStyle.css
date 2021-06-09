@@ -1,0 +1,139 @@
+                /*Links and Nav*/
+.helplink{
+    text-decoration: underline;
+}
+        
+.helplink:hover{
+    text-decoration: none;
+    font-weight: 700;
+    color : orangered;
+}
+        
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.navter a:hover{
+    color : orangered;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.navter{
+    margin-bottom: 100px;
+    font-size: 17px;
+}        
+
+
+                /*Lists*/
+li.list1{
+    margin : 5px;
+    margin-bottom: 50px;
+    font-size: 25px;
+}
+
+dd{
+    font-style: italic;
+    font-size: 20px;   
+}
+
+dt{
+    font-weight: 700;
+    font-size: 25px;
+    padding-top: 15px;    
+}
+p::first-letter, dd::first-letter{
+    text-transform: uppercase;
+}
+
+                /*Nav Target*/
+#Terastran:target, #Alamnis_Desert:target, #Amani_The_Mountain_Kingdom:target, #ActaryEnd_Alliance:target, #Nordtreldrios:target, #Nordtreldrios:target, #Angjul:target, #Estry_Kingdom:target, #Andore:target, #Vareiwricks:target, #Austrelmoris:target, #ArsShaz:target, #Haz_Ezlor:target, #Ticrond:target, #DNW:target, #UKL:target, #pub:target, #priv:target{    
+    animation-name: target_link;
+    animation-duration: 2s;    
+}
+
+@keyframes target_link {
+    0% {color: black;}
+    25% {color: orangered;}
+    50% {color: orangered;}
+    100% {color: black;}
+    
+}
+
+#pub, #priv{
+    font-weight: 700;
+}
+
+
+                /*UpButton*/
+.UpBut{
+    background-image: url(../images/UpArrow.png);
+    background-size: cover;
+    background-color: rgb(255,255,255,0%);
+    position: fixed;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    border: 1px solid;
+    right: 10px;
+    bottom: 10px;
+    opacity: .1;
+    transition: opacity 0.5s;
+}
+
+.UpBut:hover{
+    opacity: 1;
+}
+
+
+
+
+
+
+                /*Spec.html*/
+.spec_nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.spec_nav a{
+    margin: 0px 20px;
+    font-weight: 700;
+}
+.spec_nav a:hover{
+    color:orangered;
+}
+
+#pub:focus{
+    color: orangered;
+}
+
+
+                /*Content*/
+.NoSerch::after{
+    content: "Не Изучен!!!";
+    font-weight: 700;
+}
+
+.HG{
+    font-weight: 700;
+}
+.HG::before{
+    content: "Как получить: "
+    
+}
+.HG::first-letter{
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+
