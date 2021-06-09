@@ -1,35 +1,57 @@
-const staticCacheName = 'site-static-v1';
-const assets = [
-  '/',
-  '/index.html',
-  'ui.js',
-];
-// install event
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(staticCacheName).then((cache) => {
-      console.log('caching shell assets');
-      cache.addAll(assets);
-    })
-  );
-});
-// activate event
-self.addEventListener('activate', evt => {
-  evt.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(keys
-        .filter(key => key !== staticCacheName)
-        .map(key => caches.delete(key))
-      );
-    })
-  );
-});
-// When we change the name we could have multiple cache, to avoid that we need to delet the old cache, so with this function we check the key that is our cache naming, if it is different from the actual naming we delete it, in this way we will always have only the last updated cache.
-// fetch event
-self.addEventListener('fetch', evt => {
-  evt.respondWith(
-    caches.match(evt.request).then(cacheRes => {
-      return cacheRes || fetch(evt.request);
-    })
-  );
-});
+const staticCacheName = 's-app-v3'
+const dynamicCacheName = 'd-app-v3'
+
+const assetUrls = [
+  'index.html',
+  '/app.js',
+  '/css/Fontslink.css',
+  '/css/ForumStyle.css',
+  '/css/Graphic.css',
+  '/css/InfStyle.css',  
+  '/css/SLin.css',
+  'offline.html'
+]
+
+self.addEventListener('install', async event => {
+  const cache = await caches.open(staticCacheName)
+  await cache.addAll(assetUrls)
+})
+
+self.addEventListener('activate', async event => {
+  const cacheNames = await caches.keys()
+  await Promise.all(
+    cacheNames
+      .filter(name => name !== staticCacheName)
+      .filter(name => name !== dynamicCacheName)
+      .map(name => caches.delete(name))
+  )
+})
+
+self.addEventListener('fetch', event => {
+  const {request} = event
+
+  const url = new URL(request.url)
+  if (url.origin === location.origin) {
+    event.respondWith(cacheFirst(request))
+  } else {
+    event.respondWith(networkFirst(request))
+  }
+})
+
+
+async function cacheFirst(request) {
+  const cached = await caches.match(request)
+  return cached ?? await fetch(request)
+}
+
+async function networkFirst(request) {
+  const cache = await caches.open(dynamicCacheName)
+  try {
+    const response = await fetch(request)
+    await cache.put(request, response.clone())
+    return response
+  } catch (e) {
+    const cached = await cache.match(request)
+    return cached ?? await caches.match('/offline.html')
+  }
+}
