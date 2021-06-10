@@ -68,7 +68,7 @@ p::first-letter, dd::first-letter{
 
                 /*UpButton*/
 .UpBut{
-    background-image: url(../images/UpArrow.png);
+    background-image: url(/images/UpArrow.png);
     background-size: cover;
     background-color: rgb(255,255,255,0%);
     position: fixed;
