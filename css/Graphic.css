@@ -4,7 +4,7 @@
 }
 
 .bg{
-    background-image: url(../images/Desert_Sand_Texture-1203.jpg);
+    background-image: url(/images/Desert_Sand_Texture-1203.jpg);
     background-color: wheat;
     height: 200px;
     border : 2px solid;
@@ -28,7 +28,7 @@ td{
 }
 
 body{
-    background-image: url(../images/Sand%2021.jpg);
+    background-image: url(/images/Sand%2021.jpg);
     background-size: cover;
 }
     
