@@ -2,6 +2,7 @@
   "name": "Эко Место",
   "short_name": "Эко Место",
   "lang": "ru",
+  "start_url" : "/index.html",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#39cc56",
