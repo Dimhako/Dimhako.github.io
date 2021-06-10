@@ -3,9 +3,9 @@ const timeout = 400;
 
 const assetUrls = [
   '/index.html',
-  '/Sites/*',
-  '/css/*',
-  '/images/*'  
+  '/Sites',
+  '/css',
+  '/images'  
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).
