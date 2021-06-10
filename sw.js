@@ -2,7 +2,7 @@ const CACHE = 'network-or-cache-v1';
 const timeout = 400;
 
 const assetUrls = [
-  '/images/Map.png'
+  '/index.html'
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).
