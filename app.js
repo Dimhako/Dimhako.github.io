@@ -1,12 +1,9 @@
-window.addEventListener('load', async () => {
-  if ('serviceWorker' in navigator) {
-    try {
-      const reg = await navigator.serviceWorker.register('/sw.js')
-      console.log('Service worker register success', reg)
-    } catch (e) {
-      console.log('Service worker register fail')
-    }
-  }
-
-  await loadPosts()
-})
+// Проверка того, что наш браузер поддерживает Service Worker API.
+if ('serviceWorker' in navigator) {
+    // Весь код регистрации у нас асинхронный.
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => navigator.serviceWorker.ready.then((worker) => {
+        worker.sync.register('syncdata');
+      }))
+      .catch((err) => console.log(err));
+}
