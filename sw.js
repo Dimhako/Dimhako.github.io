@@ -2,7 +2,7 @@ const staticCacheName = 's-app-v3'
 const dynamicCacheName = 'd-app-v3'
 
 const assetUrls = [
-  'index.html'  
+  '/images/Map.png'
 ]
 
 self.addEventListener('install', async event => {
