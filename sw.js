@@ -1,50 +1,43 @@
-const staticCacheName = 's-app-v3'
-const dynamicCacheName = 'd-app-v3'
+const CACHE = 'network-or-cache-v1';
+const timeout = 400;
 
 const assetUrls = [
   '/images/Map.png'
 ]
 
-self.addEventListener('install', async event => {
-  const cache = await caches.open(staticCacheName)
-  await cache.addAll(assetUrls)
-})
+// При установке воркера мы должны закешировать часть данных (статику).
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE).then((cache) => cache.addAll(assetUrls)
+        ));
+});
 
-self.addEventListener('activate', async event => {
-  const cacheNames = await caches.keys()
-  await Promise.all(
-    cacheNames
-      .filter(name => name !== staticCacheName)
-      .filter(name => name !== dynamicCacheName)
-      .map(name => caches.delete(name))
-  )
-})
+// при событии fetch, мы и делаем запрос, но используем кэш, только после истечения timeout.
+self.addEventListener('fetch', (event) => {
+    event.respondWith(fromNetwork(event.request, timeout)
+      .catch((err) => {
+          console.log(`Error: ${err.message()}`);
+          return fromCache(event.request);
+      }));
+});
 
-self.addEventListener('fetch', event => {
-  const {request} = event
-
-  const url = new URL(request.url)
-  if (url.origin === location.origin) {
-    event.respondWith(cacheFirst(request))
-  } else {
-    event.respondWith(networkFirst(request))
-  }
-})
-
-
-async function cacheFirst(request) {
-  const cached = await caches.match(request)
-  return cached ?? await fetch(request)
+// Временно-ограниченный запрос.
+function fromNetwork(request, timeout) {
+    return new Promise((fulfill, reject) => {
+        var timeoutId = setTimeout(reject, timeout);
+        fetch(request).then((response) => {
+            clearTimeout(timeoutId);
+            fulfill(response);
+        }, reject);
+    });
 }
 
-async function networkFirst(request) {
-  const cache = await caches.open(dynamicCacheName)
-  try {
-    const response = await fetch(request)
-    await cache.put(request, response.clone())
-    return response
-  } catch (e) {
-    const cached = await cache.match(request)
-    return cached ?? await caches.match('/offline.html')
-  }
+function fromCache(request) {
+// Открываем наше хранилище кэша (CacheStorage API), выполняем поиск запрошенного ресурса.
+// Обратите внимание, что в случае отсутствия соответствия значения Promise выполнится успешно, но со значением `undefined`
+    return caches.open(CACHE).then((cache) =>
+        cache.match(request).then((matching) =>
+            matching || Promise.reject('no-match')
+        ));
 }
+
