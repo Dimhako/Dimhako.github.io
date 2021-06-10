@@ -2,7 +2,10 @@ const CACHE = 'network-or-cache-v1';
 const timeout = 400;
 
 const assetUrls = [
-  '/index.html'
+  '/index.html',
+  '/Sites/*',
+  '/css/*',
+  '/images/*'  
 ]
 
 // При установке воркера мы должны закешировать часть данных (статику).
